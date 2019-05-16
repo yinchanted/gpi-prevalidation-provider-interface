@@ -10,8 +10,8 @@
 	</parent>
 
 	<groupId>com.swift.gpi.preval</groupId>
-	<artifactId>java-server</artifactId>
-	<version>1.0.0</version>
+	<artifactId>java</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 
@@ -27,7 +27,6 @@
 	</properties>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
@@ -58,13 +57,13 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<!--<inputSpec>${project.build.directory}/swagger.yaml</inputSpec>-->
-							<inputSpec>preval.yaml</inputSpec>
+							<inputSpec>${project.build.directory}/swagger.yaml</inputSpec>
+							<!--<inputSpec>preval.yaml</inputSpec> -->
 							<language>jaxrs-cxf</language>
 							<output>${project.build.directory}/generated-sources</output>
-							<apiPackage>com.swift.gpi.preval.server.api</apiPackage>
-							<modelPackage>com.swift.gpi.preval.server.model</modelPackage>
-							<invokerPackage>com.swift.gpi.preval.server</invokerPackage>
+							<apiPackage>com.swift.gpi.preval.api</apiPackage>
+							<modelPackage>com.swift.gpi.preval.model</modelPackage>
+							<invokerPackage>com.swift.gpi.preval.impl</invokerPackage>
 						</configuration>
 					</execution>
 				</executions>
@@ -116,6 +115,28 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.18-SNAPSHOT</version>
+				<configuration>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.bio.SocketConnector">
+							<port>8081</port>
+						</connector>
+						<!--<connector implementation="org.mortbay.jetty.security.SslSocketConnector">
+	  					<port>9443</port>
+	  					<keystore>${basedir}/server.jks</keystore>
+	  					<password>password</password>
+	  					<keyPassword>password</keyPassword>
+						</connector>-->
+					</connectors>
+					<supportedPackagings>
+						<supportedPackaging>jar</supportedPackaging>
+					</supportedPackagings>
+		      </configuration>
+		   </plugin>
+
 		</plugins>
 	</build>
 
@@ -163,11 +184,5 @@
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-service-description -->
-		<dependency>
-		    <groupId>org.apache.cxf</groupId>
-		    <artifactId>cxf-rt-rs-service-description</artifactId>
-		    <version>3.3.1</version>
-		</dependency>
 	</dependencies>
 </project>
